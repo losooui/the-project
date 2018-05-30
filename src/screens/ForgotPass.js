@@ -2,9 +2,11 @@ import React from 'react';
 import {View, Text, KeyboardAvoidingView, StyleSheet} from 'react-native';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
+import{ transparentHeaderStyle } from '../styles/navigation';
 import BasicInput from '../components/inputs/BasicInput';
 import NextButton from '../components/buttons/NextButton';
 import Loading from '../components/Loading';
+import NavBarButtonText from '../components/buttons/NavBarButtonText';
 
 export default class ForgotPass extends React.Component {
   constructor(props) {
@@ -18,6 +20,12 @@ export default class ForgotPass extends React.Component {
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.onNextPress = this.onNextPress.bind(this);
     }
+
+    static navigationOptions = ({ navigation }) => ({
+        headerStyle: transparentHeaderStyle,
+        headerTintColor: colors.white,
+    });
+
     
     handleEmailChange(email) {
         const emailCheckRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/

@@ -1,11 +1,25 @@
 import React from 'react';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
+import{ transparentHeaderStyle } from '../styles/navigation';
 import { StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome'
-import RoundedButton from '../components/buttons/RoundedButton'
+import Icon from 'react-native-vector-icons/FontAwesome';
+import RoundedButton from '../components/buttons/RoundedButton';
+import NavBarButtonText from '../components/buttons/NavBarButtonText';
 
 export default class LoggedOut extends React.Component {
+
+  static navigationOptions = ({ navigation }) => ({
+      headerRight: <NavBarButtonText
+      color={colors.white}
+      location='right'
+      text='Log In'
+      handleOnPress={() => navigation.navigate('Login')}
+       />,
+      headerStyle: transparentHeaderStyle,
+      headerTintColor: colors.white,
+  });
+
   onFacebookPress() {
       alert('Fb button pressed')
   }
@@ -68,15 +82,16 @@ const styles = StyleSheet.create({
     logo: {
         width: 100,
         height: 50,
+        right: 10,
         marginBottom: 30,
-        alignSelf: 'center',
+       // alignSelf: 'center',
     },
     welcomeText: {
         fontSize: 30,
         fontWeight: '100',
         color: colors.white,  
         marginBottom: 40,
-        alignSelf: 'center',
+       // alignSelf: 'center',
     },
     facebookButtonIcon: {
         color: colors.orange,

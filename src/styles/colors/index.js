@@ -4,7 +4,7 @@ export default {
     lightgrey: '#cccccc',
     white: '#ffffff',
     pink: '#ff667a',
-    orange: '#fd6631',
+    orange: '#ff5555',
     blue: '#28cdfb',
     turquoise: '#55dae1',
     white20: 'rgba(255,255,255,0.2)',

@@ -6,10 +6,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../redux/actions'
 import colors from '../styles/colors';
+import{ transparentHeaderStyle } from '../styles/navigation';
 import fonts from '../styles/fonts';
 import BasicInput from '../components/inputs/BasicInput';
 import NextButton from '../components/buttons/NextButton';
 import Loading from '../components/Loading';
+import NavBarButtonText from '../components/buttons/NavBarButtonText';
+
 
 class Login extends React.Component {
     constructor(props) {
@@ -27,6 +30,17 @@ class Login extends React.Component {
         this.onNextPress = this.onNextPress.bind(this);
         this.toggleNextButtonState = this.toggleNextButtonState.bind(this);
     }
+
+    static navigationOptions = ({ navigation }) => ({
+        headerRight: <NavBarButtonText
+        color={colors.white}
+        location='right'
+        text='Forgot Password?'
+        handleOnPress={() => navigation.navigate('ForgotPass')}
+         />,
+        headerStyle: transparentHeaderStyle,
+        headerTintColor: colors.white,
+    });
 
     //TODO implement backend credentials validation
     onNextPress() {
@@ -114,9 +128,6 @@ class Login extends React.Component {
                            customStyle={{marginBottom: 10}}
                            onChangeText={this.handlePasswordChange}
                         />  
-                        <TouchableHighlight>
-                            <Text style={styles.forgotPasswordText}>Forgot password</Text>
-                        </TouchableHighlight>
                     </ScrollView>
                     <View style={styles.nextButton}> 
                             <NextButton
@@ -153,12 +164,6 @@ const styles = StyleSheet.create({
         color: colors.white,
         fontWeight: '200',
         marginBottom: 40,
-    },
-    forgotPasswordText: {
-        fontSize: 12,
-        fontWeight: '200',
-        color: colors.white,
-        alignSelf: 'flex-end',
     },
     nextButton: {
         alignItems: 'flex-end',
