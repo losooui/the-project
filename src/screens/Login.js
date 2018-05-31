@@ -25,6 +25,7 @@ class Login extends React.Component {
             validPassword: false,
             loadingVisible: false,
         }
+        
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.onNextPress = this.onNextPress.bind(this);
@@ -40,18 +41,22 @@ class Login extends React.Component {
          />,
         headerStyle: transparentHeaderStyle,
         headerTintColor: colors.white,
+    
     });
+
 
     //TODO implement backend credentials validation
     onNextPress() {
         this.setState({ loadingVisible: true });
+        const { navigate } = this.props.navigation;
+        console.log(navigate);
 
         //This simulates a slow server response
         setTimeout(() => {
             const { emailAddress, password } = this.state;
             if (this.props.logIn(emailAddress, password)) {
                 this.setState({ formValid: true, loadingVisible: false });
-                alert('good')
+                navigate('LoggedIn'); //Goes to the logged in screen
             } else {
                 this.setState({ formValid: false, loadingVisible: false });
                 alert('bad')
@@ -60,6 +65,7 @@ class Login extends React.Component {
         
     }
 
+    //Observe changes in the email input
     handleEmailChange(email) {
         const emailCheckRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         this.setState({ emailAddress: email});
@@ -75,6 +81,7 @@ class Login extends React.Component {
         }
     }
 
+    //Observe changes in the password input
     handlePasswordChange(password) {
         this.setState({ password: password });
 
@@ -87,6 +94,7 @@ class Login extends React.Component {
         }
     }
 
+    //Activate the next button when a valid email and pass are entered
     toggleNextButtonState() {
         const { validEmail, validPassword } = this.state;
         if (validEmail && validPassword) {
@@ -104,7 +112,8 @@ class Login extends React.Component {
             behavior="padding"
             >
                 <View style={styles.scrollViewWrapper}>
-                    <ScrollView style={styles.scrollView}>
+                    <ScrollView style={styles.scrollView}
+                    keyboardShouldPersistTaps="handled">
                         <Text style={styles.loginHeader}>Log in</Text>
                         <BasicInput
                            labelText="EMAIL ADDRESS"
@@ -125,7 +134,7 @@ class Login extends React.Component {
                            cursorColor={colors.turquoise}
                            borderBottom={colors.white}
                            inputType="password"
-                           customStyle={{marginBottom: 10}}
+                           customStyle={{marginBottom: 20}}
                            onChangeText={this.handlePasswordChange}
                         />  
                     </ScrollView>
@@ -146,7 +155,7 @@ const styles = StyleSheet.create({
     wrapper: {
         display: 'flex',
         flex: 1,
-        backgroundColor: colors.orange,    
+        backgroundColor: colors.orange,  
     },
     scrollViewWrapper: {
         marginTop: 70,
@@ -157,7 +166,6 @@ const styles = StyleSheet.create({
         paddingRight: 30,
         paddingTop: 20,
         flex: 1,
-
     },
     loginHeader: {
         fontSize: 34,
@@ -167,8 +175,11 @@ const styles = StyleSheet.create({
     },
     nextButton: {
         alignItems: 'flex-end',
+        alignSelf: 'flex-end',
         right: 20,
         bottom: 20,
+        width: 80,
+        backgroundColor: 'transparent',
     }
 
 });

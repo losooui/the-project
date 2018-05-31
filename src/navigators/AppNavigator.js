@@ -1,19 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addNavigationHelpers, createStackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import LoggedOut from '../screens/LoggedOut';
+import LoggedIn from '../screens/LoggedIn';
 import Login from '../screens/Login';
 import ForgotPass from '../screens/ForgotPass';
 
 export const AppNavigator = createStackNavigator({
     LoggedOut: { screen: LoggedOut },
+    LoggedIn: { screen: LoggedIn },
     Login: { screen: Login },
     ForgotPass: { screen: ForgotPass },
 });
 
 const AppWithNavigationState = ({ dispatch, nav, listener }) => (
-  <AppNavigator /*navigation={addNavigationHelpers({ state: nav, addListener: listener })}*/ />
+  <AppNavigator navigation={{ state: nav, dispatch: dispatch, addListener: listener}} />
 );
 
 AppWithNavigationState.propTypes = {
@@ -21,7 +23,7 @@ AppWithNavigationState.propTypes = {
   nav: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   nav: state.nav,
 });
 
