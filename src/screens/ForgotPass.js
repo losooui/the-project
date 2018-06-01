@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, KeyboardAvoidingView, StyleSheet} from 'react-native';
+import {View, ScrollView, Text, KeyboardAvoidingView, StyleSheet} from 'react-native';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 import{ transparentHeaderStyle } from '../styles/navigation';
@@ -73,7 +73,8 @@ export default class ForgotPass extends React.Component {
             <KeyboardAvoidingView
             style={styles.wrapper}
             behavior="padding">
-                <View style={styles.form}>
+                <ScrollView style={styles.form}
+                keyboardShouldPersistTaps="handled">
                    <Text style={styles.heading}>Forgot your password?</Text>
                    <Text style={styles.subheading}>Enter your email to reset your password.</Text>
                    <BasicInput
@@ -87,7 +88,7 @@ export default class ForgotPass extends React.Component {
                    customStyle={{marginBottom: 30}}
                    onChangeText={this.handleEmailChange}
                     />
-                </View>
+                </ScrollView>
                 <View style={styles.nextButton}> 
                      <NextButton
                       handleNextButton={this.onNextPress} 
@@ -127,6 +128,7 @@ const styles = StyleSheet.create({
      nextButton: {
         alignItems: 'flex-end',
         right: 20,
-        bottom: 20,
+        paddingBottom: 20,
+        paddingTop: 20,
     },
 })

@@ -175,10 +175,9 @@ const styles = StyleSheet.create({
     },
     nextButton: {
         alignItems: 'flex-end',
-        alignSelf: 'flex-end',
         right: 20,
-        bottom: 20,
-        width: 80,
+        paddingTop: 20,
+        paddingBottom: 20,
         backgroundColor: 'transparent',
     }
 
