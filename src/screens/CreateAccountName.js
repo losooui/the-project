@@ -13,128 +13,87 @@ import NextButton from '../components/buttons/NextButton';
 import Loading from '../components/Loading';
 import NavBarButtonText from '../components/buttons/NavBarButtonText';
 
-const error = {
-    general: "",
-    email: "",
-    password: ""
-}
-
-
-class Login extends React.Component {
+export default class CreateAccountName extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             formValid: true,
-            validEmail: false,
-            emailAddress: '',
-            password: '',
-            validPassword: false,
+            validName: false,
+            name: '',
+            username: '',
+            validUsername: false,
             loadingVisible: false,
-            error: error,
         }
         
-        this.handleEmailChange = this.handleEmailChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.onNextPress = this.onNextPress.bind(this);
-        this.onSuccess = this.onSuccess.bind(this);
-        this.onError = this.onError.bind(this);
         this.toggleNextButtonState = this.toggleNextButtonState.bind(this);
     }
 
     static navigationOptions = ({ navigation }) => ({
-        headerRight: <NavBarButtonText
-        color={colors.white}
-        location='right'
-        text='Forgot Password?'
-        handleOnPress={() => navigation.navigate('ForgotPass')}
-         />,
         headerStyle: transparentHeaderStyle,
         headerTintColor: colors.white,
-    
     });
 
-
-    //TODO implement backend credentials validation
     onNextPress() {
         this.setState({ loadingVisible: true });
-        this.setState({error: error});
 
         //This simulates a slow server response
         setTimeout(() => {
-            const { emailAddress, password } = this.state;
-            this.props.login(emailAddress, password, this.onSuccess, this.onError)
+            const { username, name } = this.state;
+
+            if (username === "aaaaaa") {
+                alert("This username already exists");
+                this.setState({ loadingVisible: false });
+            } else {
+                const { navigate } = this.props.navigation;
+                navigate("CreateAccountCredentials", {
+                    name: name,
+                    username: username,
+                });
+                this.setState({ loadingVisible: false });
+
+            }
         }, 2000);
         
     }
 
-    onSuccess() {
-         this.setState({ formValid: true, loadingVisible: false });
+    handleNameChange(name) {
+        this.setState({ name: name});
 
-         const { navigate } = this.props.navigation;
-         navigate('LoggedIn'); //Goes to the logged in screen
-    }
-
-    //Add different error response
-    onError(error) {
-        this.setState({ formValid: false, loadingVisible: false });
-        alert("Oops, wrong credentials.")
-
-        let errObj = this.state.error;
-
-        if (error.hasOwnProperty("message")) {
-            errObj['general'] = error.message;
-        } else {
-            let keys = Object.keys(error);
-            keys.map((key, index) => {
-                errObj[key] = error[key];
-            })
-        }
-        this.setState({error: errObj});
-
-        console.log(this.state.error)
-    }
-
-    //Observe changes in the email input
-    handleEmailChange(email) {
-        const emailCheckRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        this.setState({ emailAddress: email});
-
-        if (!this.state.validEmail) {
-            if (emailCheckRegex.test(email)) {
-                this.setState({ validEmail: true});
+        if (!this.state.validName) {
+            if (name.length > 0) {
+                this.setState({ validName: true});
             }
-        } else {
-            if (!emailCheckRegex.test(email)) {
-                this.setState({ validEmail: false });
-            }
+        } else if (name.length < 1) {
+            this.setState({ validName: false });
         }
     }
 
     //Observe changes in the password input
-    handlePasswordChange(password) {
-        this.setState({ password: password });
+    handleUsernameChange(username) {
+        this.setState({ username: username });
 
-        if (!this.state.validPassword) {
-            if (password.length > 4) {
-                this.setState({ validPassword: true });
+        if (!this.state.validUsername) {
+            if (username.length > 3) {
+                this.setState({ validUsername: true });
             } 
-        } else if (password.length <= 4) {
-            this.setState({ validPassword: false });
+        } else if (username.length <= 3) {
+            this.setState({ validUsername: false });
         }
     }
 
-    //Activate the next button when a valid email and pass are entered
     toggleNextButtonState() {
-        const { validEmail, validPassword } = this.state;
-        if (validEmail && validPassword) {
+        const { validName, validUsername } = this.state;
+        if (validName && validUsername) {
             return true;
         }
         return false;
     }
-    //TODO polish: checkmarks, gradient, 
+
     render() {
         const { loadingVisible } = this.state;
-        console.log("log:" + this.props.loggedInStatus);
         return (
             <KeyboardAvoidingView 
             style={styles.wrapper}
@@ -143,28 +102,28 @@ class Login extends React.Component {
                 <View style={styles.scrollViewWrapper}>
                     <ScrollView style={styles.scrollView}
                     keyboardShouldPersistTaps="handled">
-                        <Text style={styles.loginHeader}>Log in</Text>
+                        <Text style={styles.header}>What's your name?</Text>
                         <BasicInput
-                           labelText="EMAIL ADDRESS"
+                           labelText="NAME"
                            labelTextSize={14}
                            labelColor={colors.white}
                            textColor={colors.white}
                            cursorColor={colors.turquoise}
                            borderBottom={colors.white}
-                           inputType="email"
+                           inputType="text"
                            customStyle={{marginBottom: 30}}
-                           onChangeText={this.handleEmailChange}
+                           onChangeText={this.handleNameChange}
                         />
                         <BasicInput
-                           labelText="PASSWORD"
+                           labelText="USERNAME"
                            labelTextSize={14}
                            labelColor={colors.white}
                            textColor={colors.white}
                            cursorColor={colors.turquoise}
                            borderBottom={colors.white}
-                           inputType="password"
+                           inputType="text"
                            customStyle={{marginBottom: 20}}
-                           onChangeText={this.handlePasswordChange}
+                           onChangeText={this.handleUsernameChange}
                         />  
                     </ScrollView>
                     <View style={styles.nextButton}> 
@@ -179,7 +138,7 @@ class Login extends React.Component {
         );
     }
 }
-//TODO stop keyboard from disappearing
+
 const styles = StyleSheet.create({
     wrapper: {
         display: 'flex',
@@ -196,7 +155,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         flex: 1,
     },
-    loginHeader: {
+    header: {
         fontSize: 34,
         color: colors.white,
         fontWeight: '200',
@@ -211,15 +170,3 @@ const styles = StyleSheet.create({
     }
 
 });
-
-const mapStateToProps = (state) => {
-    return {
-        loggedInStatus: state.loggedInStatus,
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators(ActionCreators, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);

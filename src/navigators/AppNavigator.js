@@ -6,12 +6,16 @@ import LoggedOut from '../screens/LoggedOut';
 import LoggedIn from '../screens/LoggedIn';
 import Login from '../screens/Login';
 import ForgotPass from '../screens/ForgotPass';
+import CreateAccountName from '../screens/CreateAccountName';
+import CreateAccountCredentials from '../screens/CreateAccountCredentials';
 
 export const AppNavigator = createStackNavigator({
     LoggedOut: { screen: LoggedOut },
     LoggedIn: { screen: LoggedIn },
     Login: { screen: Login },
     ForgotPass: { screen: ForgotPass },
+    CreateAccountName: {screen: CreateAccountName},
+    CreateAccountCredentials: {screen: CreateAccountCredentials},
 });
 
 const AppWithNavigationState = ({ dispatch, nav, listener }) => (

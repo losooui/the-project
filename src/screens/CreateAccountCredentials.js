@@ -20,7 +20,7 @@ const error = {
 }
 
 
-class Login extends React.Component {
+class CreateAccoutCredentials extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -42,42 +42,39 @@ class Login extends React.Component {
     }
 
     static navigationOptions = ({ navigation }) => ({
-        headerRight: <NavBarButtonText
-        color={colors.white}
-        location='right'
-        text='Forgot Password?'
-        handleOnPress={() => navigation.navigate('ForgotPass')}
-         />,
         headerStyle: transparentHeaderStyle,
         headerTintColor: colors.white,
-    
     });
 
 
     //TODO implement backend credentials validation
     onNextPress() {
         this.setState({ loadingVisible: true });
-        this.setState({error: error});
+        this.setState({ error: error });
 
         //This simulates a slow server response
-        setTimeout(() => {
-            const { emailAddress, password } = this.state;
-            this.props.login(emailAddress, password, this.onSuccess, this.onError)
-        }, 2000);
-        
+        const params = this.props.navigation.state.params;
+         const name = params.name;
+         const username = params.username;
+
+         const { emailAddress, password } = this.state;
+
+         const data = { email: emailAddress, password, name, username };
+         this.props.register(data, this.onSuccess, this.onError);        
     }
 
     onSuccess() {
+         console.log('Success Callback')
          this.setState({ formValid: true, loadingVisible: false });
 
          const { navigate } = this.props.navigation;
          navigate('LoggedIn'); //Goes to the logged in screen
     }
 
-    //Add different error response
+    //TODO: add all different error alerts
     onError(error) {
         this.setState({ formValid: false, loadingVisible: false });
-        alert("Oops, wrong credentials.")
+        alert("Oops, something went wrong. Try again.")
 
         let errObj = this.state.error;
 
@@ -115,10 +112,10 @@ class Login extends React.Component {
         this.setState({ password: password });
 
         if (!this.state.validPassword) {
-            if (password.length > 4) {
+            if (password.length > 5) {
                 this.setState({ validPassword: true });
             } 
-        } else if (password.length <= 4) {
+        } else if (password.length <= 5) {
             this.setState({ validPassword: false });
         }
     }
@@ -133,6 +130,7 @@ class Login extends React.Component {
     }
     //TODO polish: checkmarks, gradient, 
     render() {
+
         const { loadingVisible } = this.state;
         console.log("log:" + this.props.loggedInStatus);
         return (
@@ -143,7 +141,7 @@ class Login extends React.Component {
                 <View style={styles.scrollViewWrapper}>
                     <ScrollView style={styles.scrollView}
                     keyboardShouldPersistTaps="handled">
-                        <Text style={styles.loginHeader}>Log in</Text>
+                        <Text style={styles.header}>Enter your credentials</Text>
                         <BasicInput
                            labelText="EMAIL ADDRESS"
                            labelTextSize={14}
@@ -196,7 +194,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         flex: 1,
     },
-    loginHeader: {
+    header: {
         fontSize: 34,
         color: colors.white,
         fontWeight: '200',
@@ -222,4 +220,4 @@ const mapDispatchToProps = (dispatch) => {
     return bindActionCreators(ActionCreators, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateAccoutCredentials);

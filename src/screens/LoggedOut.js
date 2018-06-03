@@ -3,11 +3,18 @@ import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 import{ transparentHeaderStyle } from '../styles/navigation';
 import { StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
+import { bindActionCreators } from 'redux';
+import { ActionCreators } from '../redux/actions'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import RoundedButton from '../components/buttons/RoundedButton';
 import NavBarButtonText from '../components/buttons/NavBarButtonText';
 
 export default class LoggedOut extends React.Component {
+  constructor(props) {
+      super(props);
+      
+      this.onCreateAccountPress = this.onCreateAccountPress.bind(this);
+  }
 
   static navigationOptions = ({ navigation }) => ({
       headerRight: <NavBarButtonText
@@ -24,7 +31,8 @@ export default class LoggedOut extends React.Component {
       alert('Fb button pressed')
   }
   onCreateAccountPress() {
-      alert('CA button pressed')
+      const { navigate } = this.props.navigation;
+      navigate("CreateAccountName");
   }
   render() {
     return (

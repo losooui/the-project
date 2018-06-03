@@ -7,7 +7,8 @@ export default class LoggedIn extends React.Component {
         headerLeft: null,
         headerStyle: transparentHeaderStyle,
         gesturesEnabled: false,
-    })
+    });
+    
     render() {
         return (
             <TabBarNavigator />

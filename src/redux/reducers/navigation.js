@@ -1,4 +1,3 @@
-import createReact from '../helpers/createReducer';
 import { NavigationActions } from 'react-navigation';
 import * as types from '../actions/types';
 import { AppNavigator } from '../../navigators/AppNavigator';
