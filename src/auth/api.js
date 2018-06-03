@@ -3,7 +3,7 @@ import { auth, db } from "../config/firebase";
 export function register(data, callback) {
     const { email, password, name, username } = data;
     auth.createUserWithEmailAndPassword(email, password)
-        .then((resp) => createUser({ username, uid:resp.user.uid, name }, callback))
+        .then((resp) => createUser({ username, uid:resp.user.uid, name, email}, callback))
         .catch((error) => callback(false, null, error));
 }
 
@@ -12,7 +12,7 @@ export function createUser (user, callback) {
     var batch = db.batch();
 
     var newUserRef = db.collection('users').doc(user.uid);
-    batch.set(newUserRef, {name: user.name, username: user.username});
+    batch.set(newUserRef, {_id: user.uid, email: user.email, name: user.name, username: user.username});
 
     var usernamesRef = db.collection('usernames').doc(user.username);
     batch.set(usernamesRef, {uid: user.uid});
