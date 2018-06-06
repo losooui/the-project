@@ -8,6 +8,7 @@ import { ActionCreators } from '../redux/actions'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import RoundedButton from '../components/buttons/RoundedButton';
 import NavBarButtonText from '../components/buttons/NavBarButtonText';
+import { human, systemWeights, sanFranciscoWeights} from 'react-native-typography';
 
 export default class LoggedOut extends React.Component {
   constructor(props) {
@@ -95,8 +96,8 @@ const styles = StyleSheet.create({
        // alignSelf: 'center',
     },
     welcomeText: {
-        fontSize: 30,
-        fontWeight: '100',
+        ...human.title1Object,
+        ...systemWeights.light,
         color: colors.white,  
         marginBottom: 40,
        // alignSelf: 'center',
@@ -114,9 +115,9 @@ const styles = StyleSheet.create({
         marginTop: 30,
     },
     termsText: {
+        ...human.caption1Object,
+        ...systemWeights.light,
         color: colors.white,
-        fontSize: 12,
-        fontWeight: '200',
     },
     linkButton: {
         borderBottomWidth: 1,

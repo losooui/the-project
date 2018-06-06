@@ -10,9 +10,11 @@ export function login(email, password, successCallback, errorCallback) {
         api.login(email, password, function(success, data, error) {
 
             if (success) {
-                dispatch(setLoggedInState(true, data));
-                console.log('success: ' + success);
-                successCallback();
+                if (data.exists) {
+                    dispatch(setLoggedInState(true, data.user))
+                    successCallback(data);
+                }
+
 
             } else if (error) {
                  dispatch(setLoggedInState(false, null));
@@ -48,6 +50,17 @@ export function register(data, successCallback, errorCallback) {
                 errorCallback(error);
 
             }
+        });
+    };
+}
+
+export function logout(successCallback, errorCallback) {
+    return (dispatch) => {
+        api.logout(function (success, data, error) {
+            if (success) {
+                dispatch(setLoggedInState(false, null));
+                successCallback();
+            } else if (error) errorCallback(error)
         });
     };
 }

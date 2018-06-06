@@ -25,7 +25,7 @@ export function createUser (user, callback) {
 //Sign the user in with their email and password
 export function login(email, password, callback) {
     auth.signInWithEmailAndPassword(email, password)
-        .then((resp) => callback(true, null, null)) //Later will call getUser
+        .then((resp) => getUser(resp.user, callback))//Later will call getUser
         .catch((error) => callback(false, null, error));
 }
 
@@ -36,7 +36,12 @@ export function getUser(user, callback) {
 
             if (doc.exists) {
                 //Get data
-                callback(true, doc.data, null);
+                const exists = doc.exists;
+                const user = doc.data();
+                const data = {exists, user};
+                callback(true, data, null);
+
+                console.log(doc.id, " => ", doc.data());
             }
 
         })
@@ -50,9 +55,9 @@ export function resetPassword(email, callback) {
         .catch((error) => callback(false, error));
 }
 
-/*
 
-export function signOut (callback) {
+
+function logout (callback) {
     auth.signOut()
         .then(() => {
             if (callback) callback(true, null, null)
@@ -61,6 +66,8 @@ export function signOut (callback) {
             if (callback) callback(false, null, error)
         });
 }
+
+/*
 
 
 //Sign user in using Facebook

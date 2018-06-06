@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../redux/actions'
 import{ transparentHeaderStyle } from '../styles/navigation';
+import { human, systemWeights, sanFranciscoWeights} from 'react-native-typography';
 import BasicInput from '../components/inputs/BasicInput';
 import NextButton from '../components/buttons/NextButton';
 import Loading from '../components/Loading';
@@ -145,14 +146,14 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     heading: {
-        fontSize: 28,
+        ...human.title1Object,
         color: colors.white,
-        fontWeight: '200'
+        ...systemWeights.light,
     },
     subheading: {
         color: colors.white,
-        fontWeight: '500',
-        fontSize: 14,
+        ...systemWeights.regular,
+        ...human.subdeadObject,
         marginTop: 10,
         marginBottom: 60,
     },

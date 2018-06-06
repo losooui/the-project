@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../redux/actions'
 import colors from '../styles/colors';
 import{ transparentHeaderStyle } from '../styles/navigation';
-import fonts from '../styles/fonts';
+import { human, systemWeights, sanFranciscoWeights} from 'react-native-typography';
 import BasicInput from '../components/inputs/BasicInput';
 import NextButton from '../components/buttons/NextButton';
 import Loading from '../components/Loading';
@@ -40,23 +40,21 @@ export default class CreateAccountName extends React.Component {
         this.setState({ loadingVisible: true });
 
         //This simulates a slow server response
-        setTimeout(() => {
-            const { username, name } = this.state;
 
-            if (username === "aaaaaa") {
-                alert("This username already exists");
-                this.setState({ loadingVisible: false });
-            } else {
-                const { navigate } = this.props.navigation;
-                navigate("CreateAccountCredentials", {
-                    name: name,
-                    username: username,
-                });
-                this.setState({ loadingVisible: false });
+        const { username, name } = this.state;
 
-            }
-        }, 2000);
-        
+         if (username === "aaaaaa") {
+             alert("This username already exists");
+            this.setState({ loadingVisible: false });
+         } else {
+             const { navigate } = this.props.navigation;
+             navigate("CreateAccountCredentials", {
+                 name: name,
+                 username: username,
+            });
+             this.setState({ loadingVisible: false });
+
+            }        
     }
 
     handleNameChange(name) {
@@ -156,9 +154,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        fontSize: 34,
+        ...human.largeTitleObject,
         color: colors.white,
-        fontWeight: '200',
+        ...systemWeights.light,
         marginBottom: 40,
     },
     nextButton: {

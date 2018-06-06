@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../redux/actions'
 import colors from '../styles/colors';
 import{ transparentHeaderStyle } from '../styles/navigation';
-import fonts from '../styles/fonts';
+import { human, systemWeights, sanFranciscoWeights} from 'react-native-typography';
 import BasicInput from '../components/inputs/BasicInput';
 import NextButton from '../components/buttons/NextButton';
 import Loading from '../components/Loading';
@@ -60,18 +60,21 @@ class Login extends React.Component {
         this.setState({error: error});
 
         //This simulates a slow server response
-        setTimeout(() => {
-            const { emailAddress, password } = this.state;
-            this.props.login(emailAddress, password, this.onSuccess, this.onError)
-        }, 2000);
-        
+        const { emailAddress, password } = this.state;
+        this.props.login(emailAddress, password, this.onSuccess, this.onError)     
     }
 
-    onSuccess() {
-         this.setState({ formValid: true, loadingVisible: false });
+    onSuccess({exists, user}) {
 
-         const { navigate } = this.props.navigation;
-         navigate('LoggedIn'); //Goes to the logged in screen
+        if (exists) {
+             this.setState({ formValid: true, loadingVisible: false });
+
+             const { navigate } = this.props.navigation;
+             navigate('LoggedIn'); //Goes to the logged in screen
+        } else {
+            //TODO go to complete profile {user}
+        }
+        
     }
 
     //Add different error response
@@ -197,9 +200,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     loginHeader: {
-        fontSize: 34,
+        ...human.largeTitleObject,
         color: colors.white,
-        fontWeight: '200',
+        ...systemWeights.light,
         marginBottom: 40,
     },
     nextButton: {
@@ -214,7 +217,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-        loggedInStatus: state.loggedInStatus,
+        loggedOut: state.loggedOut,
     }
 }
 

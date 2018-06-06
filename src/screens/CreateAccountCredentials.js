@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../redux/actions'
 import colors from '../styles/colors';
 import{ transparentHeaderStyle } from '../styles/navigation';
-import fonts from '../styles/fonts';
+import { human, systemWeights, sanFranciscoWeights} from 'react-native-typography';
 import BasicInput from '../components/inputs/BasicInput';
 import NextButton from '../components/buttons/NextButton';
 import Loading from '../components/Loading';
@@ -141,7 +141,7 @@ class CreateAccoutCredentials extends React.Component {
                 <View style={styles.scrollViewWrapper}>
                     <ScrollView style={styles.scrollView}
                     keyboardShouldPersistTaps="handled">
-                        <Text style={styles.header}>Enter your credentials</Text>
+                        <Text style={styles.header}>Email and Password</Text>
                         <BasicInput
                            labelText="EMAIL ADDRESS"
                            labelTextSize={14}
@@ -195,9 +195,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        fontSize: 34,
+        ...human.largeTitleObject,
         color: colors.white,
-        fontWeight: '200',
+        ...systemWeights.light,
         marginBottom: 40,
     },
     nextButton: {

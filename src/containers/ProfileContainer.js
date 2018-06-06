@@ -1,9 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { ActionCreators } from '../redux/actions'
 import colors from '../styles/colors';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export default class ProfileContainer extends React.Component {
+class ProfileContainer extends React.Component {
     static navigationOptions = {
         tabBarLabel: 'PROFILE',
         tabBarIcon: ({ tintColor }) => (
@@ -16,9 +19,12 @@ export default class ProfileContainer extends React.Component {
     };
 
     render() {
+        console.log("this is the props >>>>>>", this.props.loggedOut.user.toString())
         return (
             <View style={styles.wrapper}>
                 <Text>Profile</Text>
+                <Text>User</Text>
+                <Text>{JSON.stringify(this.props.loggedOut.user)}</Text>
             </View>
         );
     }
@@ -31,3 +37,15 @@ const styles = StyleSheet.create({
          padding: 50,    
      }
  });
+
+ const mapStateToProps = (state) => {
+    return {
+        loggedOut: state.loggedOut,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(ActionCreators, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);

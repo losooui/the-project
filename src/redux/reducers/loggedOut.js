@@ -4,7 +4,7 @@ import * as types from '../actions/types';
 
 let initialState = { isLoggedIn: false, user: null };
 
-const loggedOut = (state = initialState, action) => {
+export const loggedOut = (state = initialState, action) => {
     switch (action.type) {
         case types.LOGGED_IN:
             const user = action.data;
@@ -27,4 +27,3 @@ const loggedOut = (state = initialState, action) => {
     }
 };
 
-export default loggedOut;
